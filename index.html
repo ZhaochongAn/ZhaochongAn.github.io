@@ -60,6 +60,10 @@
           </tr>
         </tbody></table>
         
+        <table id="papersTable", style="width:100%;border:0px;border-spacing:0px;border-collapse:collapse;margin-right:auto;margin-left:auto;"><tbody>
+          <!-- Papers will be dynamically added here -->
+        </tbody></table>
+
         
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>   
           <tr>
@@ -199,13 +203,51 @@
 				This page design is based on a template by <a href="https://jonbarron.info/">Jon Barron</a>.
               </p>
               <footer class="footer">
-                <p>&copy; Zhaochong An 2023</p>
+                <p>&copy; Zhaochong An 2024</p>
                 </footer>
       </td>
     </tr>
   </table>
   
+  <script>
+    function createPaperRow(paper) {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td class="tdimg" style="padding:20px;width:35%;vertical-align:center">
+                <img src='${paper.image}' alt="Paper Image">
+            </td>
+            <td class="tdcontent" style="padding:20px;width:75%;vertical-align:center", bgcolor="${paper.representation}">
+                <p>
+                    <a href="${paper.url}">
+                        <papertitle>${paper.title}</papertitle>
+                    </a>
+                    <br>
+                    ${paper.authors}
+                    <br>
+                    <em>${paper.publicationPlatform}</em>, ${paper.publicationDate} &nbsp
+                    <!-- <font color="red"><strong>(Oral Presentation, Best Paper Finalist - Top 0.4%)</strong></font> -->
+                    <br>
+                </p>
+                <div class="paper">
+                    <a href="${paper.codeLink}"> ${paper.linkName} </a>
+                </div>
+            </td>
+        `;
+        return row;
+    }
 
+    fetch('data/papers_data.json')
+        .then(response => response.json())
+        .then(data => {
+            const papersTable = document.getElementById('papersTable');
+            // Loop through each paper and create a row for it
+            data.forEach(paper => {
+                const row = createPaperRow(paper);
+                papersTable.appendChild(row);
+            });
+        })
+        .catch(error => console.error('Error fetching papers data:', error));
+</script>
   
 </body>
 
