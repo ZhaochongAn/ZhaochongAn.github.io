@@ -2,12 +2,12 @@
     {
 		"image": "images/coseg.png",
 		"title": "Rethinking Few-shot 3D Point Cloud Semantic Segmentation",
-		"url": "",
+		"url": "https://arxiv.org/abs/2403.00592",
 		"authors": "<strong>Zhaochong An</strong>, Guolei Sun, Yun Liu, Fayao Liu, Zongwei Wu, Dan Wang, Luc Van Gool, Serge Belongie",
 		"publicationPlatform": "CVPR",
 		"publicationDate": "2024",
-		"codeLink": "",
-		"linkName": "code & paper (coming soon)",
+		"codeLink": "https://github.com/ZhaochongAn/COSeg",
+		"linkName": "code",
 		"representation":"#FFFFFF"
     },
     {
