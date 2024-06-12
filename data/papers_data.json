@@ -10,6 +10,17 @@
 		"linkName": "code",
 		"representation":"#FFFFFF"
     },
+	{
+		"image": "images/knnclip.png",
+		"title": "kNN-CLIP: Retrieval Enables Training-Free Segmentation on Continually Expanding Large Vocabularies",
+		"url": "https://arxiv.org/pdf/2404.09447",
+		"authors": "Zhongrui Gui, Shuyang Sun, Runjia Li, Jianhao Yuan, <strong>Zhaochong An</strong>, Karsten Roth, Ameya Prabhu, Philip Torr",
+		"publicationPlatform": "arXiv preprint",
+		"publicationDate": "2024",
+		"codeLink": "https://arxiv.org/pdf/2404.09447",
+		"linkName": "arXiv",
+		"representation":"#FFFFFF"
+    },
     {
 		"image": "images/themask.png",
 		"title": "Temporal-aware Hierarchical Mask Classification for Video Semantic Segmentation",
