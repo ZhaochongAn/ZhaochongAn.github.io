@@ -1,5 +1,5 @@
 [
-    {
+	{
 		"image": "images/coseg.png",
 		"title": "Rethinking Few-shot 3D Point Cloud Semantic Segmentation",
 		"url": "https://arxiv.org/abs/2403.00592",
@@ -8,20 +8,20 @@
 		"publicationDate": "2024",
 		"codeLink": "https://github.com/ZhaochongAn/COSeg",
 		"linkName": "code",
-		"representation":"#FFFFFF"
-    },
+		"representation": "#FFFFFF"
+	},
 	{
 		"image": "images/knnclip.png",
 		"title": "kNN-CLIP: Retrieval Enables Training-Free Segmentation on Continually Expanding Large Vocabularies",
 		"url": "https://arxiv.org/pdf/2404.09447",
 		"authors": "Zhongrui Gui, Shuyang Sun, Runjia Li, Jianhao Yuan, <strong>Zhaochong An</strong>, Karsten Roth, Ameya Prabhu, Philip Torr",
-		"publicationPlatform": "arXiv preprint",
+		"publicationPlatform": "TMLR",
 		"publicationDate": "2024",
 		"codeLink": "https://arxiv.org/pdf/2404.09447",
 		"linkName": "arXiv",
-		"representation":"#FFFFFF"
-    },
-    {
+		"representation": "#FFFFFF"
+	},
+	{
 		"image": "images/themask.png",
 		"title": "Temporal-aware Hierarchical Mask Classification for Video Semantic Segmentation",
 		"url": "https://arxiv.org/abs/2309.08020",
@@ -30,9 +30,9 @@
 		"publicationDate": "2023",
 		"codeLink": "https://github.com/ZhaochongAn/THE-Mask",
 		"linkName": "code",
-		"representation":"#FFFFFF"
-    },
-    {
+		"representation": "#FFFFFF"
+	},
+	{
 		"image": "images/ioc.png",
 		"title": "Indiscernible Object Counting in Underwater Scenes",
 		"url": "https://openaccess.thecvf.com/content/CVPR2023/papers/Sun_Indiscernible_Object_Counting_in_Underwater_Scenes_CVPR_2023_paper.pdf",
@@ -41,9 +41,9 @@
 		"publicationDate": "2023",
 		"codeLink": "https://github.com/GuoleiSun/Indiscernible-Object-Counting",
 		"linkName": "code",
-		"representation":"#FFFFFF"
-    },
-    {
+		"representation": "#FFFFFF"
+	},
+	{
 		"image": "images/mcs.png",
 		"title": "Object Segmentation by Mining Cross-Modal Semantics",
 		"url": "https://arxiv.org/abs/2305.10469",
@@ -52,6 +52,6 @@
 		"publicationDate": "2023",
 		"codeLink": "https://github.com/Zongwei97/XMSNet",
 		"linkName": "code",
-		"representation":"#FFFFFF"
-    }
-] 
+		"representation": "#FFFFFF"
+	}
+]
