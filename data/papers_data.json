@@ -1,5 +1,27 @@
 [
 	{
+		"image": "images/mmfss.png",
+		"title": "Multimodality Helps Few-Shot 3D Point Cloud Semantic Segmentation",
+		"url": "https://arxiv.org/pdf/2409.08271",
+		"authors": "<strong>Zhaochong An</strong>, Guolei Sun, Yun Liu, Runjia Li, Min Wu, Ming-Ming Cheng, Ender Konukoglu, Serge Belongie",
+		"publicationPlatform": "ICLR (<font color='red'><strong>(Spotlight Presentation - Top 5.1%)</strong></font>)",
+		"publicationDate": "2025",
+		"codeLink": "https://github.com/ZhaochongAn/Multimodality-3D-Few-Shot",
+		"linkName": "code",
+		"representation": "#FFFFFF"
+	},
+	{
+		"image": "images/dreambeast.png",
+		"title": "DreamBeast: Distilling 3D Fantastical Animals with Part-Aware Knowledge Transfer",
+		"url": "https://arxiv.org/pdf/2409.08271",
+		"authors": "Runjia Li, Junlin Han, Luke Melas-Kyriazi, Chunyi Sun, <strong>Zhaochong An</strong>, Zhongrui Gui, Shuyang Sun, Philip Torr, Tomas Jakab",
+		"publicationPlatform": "3DV",
+		"publicationDate": "2025",
+		"codeLink": "https://dreambeast3d.github.io/",
+		"linkName": "project website",
+		"representation": "#FFFFFF"
+	},
+	{
 		"image": "images/coseg.png",
 		"title": "Rethinking Few-shot 3D Point Cloud Semantic Segmentation",
 		"url": "https://arxiv.org/abs/2403.00592",
@@ -13,11 +35,11 @@
 	{
 		"image": "images/knnclip.png",
 		"title": "kNN-CLIP: Retrieval Enables Training-Free Segmentation on Continually Expanding Large Vocabularies",
-		"url": "https://arxiv.org/pdf/2404.09447",
+		"url": "https://arxiv.org/abs/2404.09447",
 		"authors": "Zhongrui Gui, Shuyang Sun, Runjia Li, Jianhao Yuan, <strong>Zhaochong An</strong>, Karsten Roth, Ameya Prabhu, Philip Torr",
 		"publicationPlatform": "TMLR",
 		"publicationDate": "2024",
-		"codeLink": "https://arxiv.org/pdf/2404.09447",
+		"codeLink": "https://arxiv.org/abs/2404.09447",
 		"linkName": "arXiv",
 		"representation": "#FFFFFF"
 	},
