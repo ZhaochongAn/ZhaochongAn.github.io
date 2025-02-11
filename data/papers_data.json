@@ -2,7 +2,7 @@
 	{
 		"image": "images/mmfss.png",
 		"title": "Multimodality Helps Few-shot 3D Point Cloud Semantic Segmentation",
-		"url": "https://arxiv.org/pdf/2409.08271",
+		"url": "https://arxiv.org/pdf/2410.22489",
 		"authors": "<strong>Zhaochong An</strong>, Guolei Sun, Yun Liu, Runjia Li, Min Wu, Ming-Ming Cheng, Ender Konukoglu, Serge Belongie",
 		"publicationPlatform": "ICLR <font color='red'><strong>(Spotlight - Top 5.1% of submitted paper)</strong></font>",
 		"publicationDate": "2025",
