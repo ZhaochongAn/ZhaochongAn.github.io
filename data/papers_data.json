@@ -1,5 +1,27 @@
 [
 	{
+		"image": "images/GFS_VL.png",
+		"title": "Generalized Few-shot 3D Point Cloud Segmentation with Vision-Language Model",
+		"url": "https://arxiv.org/pdf/2503.16282",
+		"authors": "<strong>Zhaochong An</strong>, Guolei Sun, Yun Liu, Runjia Li, Junlin Han, Ender Konukoglu, Serge Belongie",
+		"publicationPlatform": "CVPR",
+		"publicationDate": "2025",
+		"codeLink": "https://github.com/ZhaochongAn/GFS-VL",
+		"linkName": "code",
+		"representation": "#FFFFFF"
+	},
+	{
+		"image": "images/chatmotion.png",
+		"title": "ChatMotion: A Multimodal Multi-Agent for Human Motion Analysi",
+		"url": "https://arxiv.org/pdf/2502.18180",
+		"authors": "Lei Li, Sen Jia, Jianhao Wang, <strong>Zhaochong An</strong>, Jiaang Li, Jenq-Neng Hwang, Serge Belongie>",
+		"publicationPlatform": "arXiv",
+		"publicationDate": "2025",
+		"codeLink": "https://arxiv.org/pdf/2502.18180",
+		"linkName": "paper",
+		"representation": "#FFFFFF"
+	},
+	{
 		"image": "images/mmfss.png",
 		"title": "Multimodality Helps Few-shot 3D Point Cloud Semantic Segmentation",
 		"url": "https://arxiv.org/pdf/2410.22489",
@@ -40,7 +62,7 @@
 		"publicationPlatform": "TMLR",
 		"publicationDate": "2024",
 		"codeLink": "https://arxiv.org/abs/2404.09447",
-		"linkName": "arXiv",
+		"linkName": "paper",
 		"representation": "#FFFFFF"
 	},
 	{
