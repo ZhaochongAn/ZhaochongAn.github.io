@@ -1,0 +1,251 @@
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>OneStory</title>
+<link rel="stylesheet" href="./OneStory_files/css/bootstrap.min.css">
+<link rel="stylesheet" href="./OneStory_files/css/dics.min.css">
+<link rel="stylesheet" href="./OneStory_files/css/bulma.min.css">
+<link rel="stylesheet" href="./OneStory_files/css/bulma-carousel.min.css">
+<link rel="stylesheet" href="./OneStory_files/css/index.css">
+<link rel="stylesheet" href="./OneStory_files/css/style.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="./OneStory_files/js/bulma-carousel.min.js"></script>
+<script src="./OneStory_files/js/index.js"></script>
+<script src="./OneStory_files/js/dics.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', domReady);
+    function domReady() {
+        for (const e of document.querySelectorAll(".b-dics")) {
+            new Dics({
+                container: e,
+                textPosition: "top"
+            });
+        }
+    }
+</script>
+</head>
+
+<body>
+<div class="content">
+  <h1><strong><font color="#9900FF">OneStory</font>: Coherent Multi-Shot Video Generation <br> with Adaptive Memory </strong></h1>
+  <p id="authors" style="text-align:center; font-size:16px;">
+    <span style="display:inline-block; margin:0 3px 6px 3px;"><a href="https://zhaochongan.github.io/"><b>Zhaochong An<sup>1,2</sup></b></a></span>
+    <span style="display:inline-block; margin:0 3px 6px 3px;"><a href="https://kmnp.github.io/"><b>Menglin Jia<sup>1</sup></b></a></span>
+    <span style="display:inline-block; margin:0 3px 6px 3px;"><a href="http://haonanqiu.com/"><b>Haonan Qiu<sup>1</sup></b></a></span>
+    <span style="display:inline-block; margin:0 3px 6px 3px;"><a href="https://sites.google.com/view/zijian-zhou/home"><b>Zijian Zhou<sup>1</sup></b></a></span>
+    <span style="display:inline-block; margin:0 3px 6px 3px;"><a href="https://xk-huang.github.io/"><b>Xiaoke Huang<sup>1</sup></b></a></span>
+    <br>
+    <span style="display:inline-block; margin:0 3px 6px 3px;"><a href="https://johanan528.github.io/"><b>Zhiheng Liu<sup>1</sup></b></a></span>
+    <span style="display:inline-block; margin:0 3px 6px 3px;"><a href="https://cs.uwaterloo.ca/~w2ren/"><b>Weiming Ren<sup>1</sup></b></a></span>
+    <span style="display:inline-block; margin:0 3px 6px 3px;"><a href="https://www3.cs.stonybrook.edu/~kkahatapitiy/"><b>Kumara Kahatapitiya<sup>1</sup></b></a></span>
+    <span style="display:inline-block; margin:0 3px 6px 3px;"><a href="https://scholar.google.com/citations?user=PGtHUI0AAAAJ&hl=en"><b>Ding Liu<sup>1</sup></b></a></span>
+    <span style="display:inline-block; margin:0 3px 6px 3px;"><a href="https://senhe.github.io/"><b>Sen He<sup>1</sup></b></a></span>
+    <span style="display:inline-block; margin:0 3px 6px 3px;"><a href="https://scholar.google.ca/citations?user=XYxv5HIAAAAJ&hl=en"><b>Chenyang Zhang<sup>1</sup></b></a></span>
+    <br>
+    <span style="display:inline-block; margin:0 3px 6px 3px;"><a href="https://www.surrey.ac.uk/people/tao-xiang"><b>Tao Xiang<sup>1</sup></b></a></span>
+    <span style="display:inline-block; margin:0 3px 6px 3px;"><a href="https://www.linkedin.com/in/fanny-yang-035861128/"><b>Fanny Yang<sup>1</sup></b></a></span>
+    <span style="display:inline-block; margin:0 3px 6px 3px;"><a href="https://sergebelongie.github.io/"><b>Serge Belongie<sup>2</sup></b></a></span>
+    <span style="display:inline-block; margin:0 3px 6px 3px;"><a href="https://tianxieusc.github.io/"><b>Tian Xie<sup>1,*</sup></b></a></span>
+    <br>
+    <span style="font-size: 14px;">
+      <b><sup>1</sup> Meta BizAI</b> &nbsp;&nbsp;
+      <b><sup>2</sup> University of Copenhagen</b> &nbsp;&nbsp;
+      <br>
+      <b><sup>*</sup> Project lead</b>
+    </span>
+    <p style="text-align: center; font-size:19px;">
+      <a href="" target="_blank"><b>[Paper]</b></a> &nbsp;&nbsp;&nbsp;
+      <a href="" target="_blank"><b>[Twitter Thread]</b></a>
+    </p>
+    <br>
+  </p>
+</div>
+
+ <div class="content" style="text-align:left;">
+   <h2 style="text-align:center;"><b>Abstract</b></h2>
+   <p style="text-align:left !important;">Storytelling in real-world videos often unfolds through multiple shots—discontinuous yet semantically connected clips that together convey a coherent narrative. However, existing multi-shot video generation (MSV) methods struggle to effectively model long-range cross-shot context, as they rely on limited temporal windows or single keyframe conditioning, leading to degraded performance under complex narratives. In this work, we propose OneStory, enabling global yet compact cross-shot context modeling for consistent and scalable narrative generation. OneStory reformulates MSV as a next-shot generation task, enabling autoregressive shot synthesis while leveraging pretrained image-to-video (I2V) models for strong visual conditioning. We introduce two key modules: a Frame Selection module that constructs a semantically-relevant global memory based on informative frames from prior shots, and an Adaptive Conditioner that performs importance-guided patchification to generate compact context for direct conditioning. We further curate a high-quality multi-shot dataset with referential captions to mirror real-world storytelling patterns, and design effective training strategies under the next-shot paradigm. Finetuned from a pretrained I2V model on our curated 60K dataset, OneStory achieves state-of-the-art narrative coherence across diverse and complex scenes in both text- and image-conditioned settings, enabling controllable and immersive long-form video storytelling. Our model and data will be released with the paper.</p>
+ </div>
+
+
+ 
+<div class="content">
+  <h2 style="text-align:center;"><b>10-Shot Minute-Long Multi-Shot Video Generation</b></h2>
+  <p style="text-align:left !important;">
+    We present 10-shot video generations under both text-to-multi-shot and image-to-multi-shot settings.  
+    Each example shows 10-shots of a minute-long video. OneStory handles both image-to-multi-shot and text-to-multi-shot generation within the same model, and generalizes well to out-of-domain scenes.  
+    It maintains consistent characters and environments while faithfully following complex and evolving prompts to produce coherent long-form narratives. A representative segment of each prompt is given with the corresponding shot.
+  </p>
+
+  <div style="max-width: 800px; margin: 0 auto;">
+    <div style="text-align: center; padding: 10px;">
+      <h3 style="font-size: 20px;">Text-to-Multi-Shot</h3>
+      <video width="800" autoplay muted loop playsinline>
+        <!-- Your video file here -->
+        <source src="./OneStory_files/vids/t2msv.mp4"
+        type="video/mp4">
+      sorry, your browser does not support HTML5 Videos.
+      </video>
+    </div>
+    <div style="text-align: center; padding: 10px;">
+      <h3 style="font-size: 20px;">Image-to-Multi-Shot</h3>
+      <video width="800" autoplay muted loop playsinline>
+        <!-- Your video file here -->
+        <source src="./OneStory_files/vids/i2msv.mp4"
+        type="video/mp4">
+      sorry, your browser does not support HTML5 Videos.
+      </video>
+    </div>
+  </div>
+</div>
+
+<!--------------------- Method --------------------->
+<div class="content">
+  <h2 style="text-align:center;"><b>Method</b></h2>
+  <p style="text-align:center;">
+      <img src="./OneStory_files/pipeline.png" style="width: 100%"/>
+  </p>
+  <p style="text-align:left !important;">
+    Our model reframes multi-shot video generation (MSV) as a <i>next-shot generation</i> task.
+    <strong>(a)</strong> During training, the model learns to generate the final shot conditioned on the preceding two; when only two shots are available, we inflate with a synthetic shot to enable unified three-shot training.
+    <strong>(b)</strong> At inference, it maintains a memory bank of past shots and generates multi-shot videos autoregressively.
+    The model is comprised of two key components: <strong>(c)</strong> a <i>Frame Selection</i> module that selects semantically-relevant frames from preceding shots to construct a global context, and <strong>(d)</strong> an <i>Adaptive Conditioner</i> that dynamically compresses the selected context and injects it directly into the generator for efficient conditioning.
+    Together, OneStory realizes adaptive memory modeling, enabling global yet compact cross-shot context for coherent narrative generation.
+  </p>
+</div>
+
+<div class="content">
+
+  <h2 style="text-align:center;"><b>Qualitative Comparisons</b></h2>
+  <p style="text-align:left !important;">For a fair comparison, the given multi-shot generations share the same first shot as the initial condition, except for StoryDiff.+Wan2.1, which does not rely on visual conditioning. The baseline methods fail to maintain narrative consistency across shots, struggling with prompt adherence, reappearance, and compositional scenes, whereas our model (Ours) faithfully follows shot-level captions and produces coherent shots. A representative segment of each prompt is given with the corresponding shot.</p>
+
+  <div style="max-width: 800px; margin: 0 auto;">
+    <div style="text-align: center; padding: 10px;">
+      <h3 style="font-size: 18px;">Example 1 (Text-to-Multi-Shot)</h3>
+      <video width="800" autoplay muted loop playsinline>
+        <!-- Your video file here -->
+        <source src="./OneStory_files/vids/exp_vis_3.mp4"
+        type="video/mp4">
+      sorry, your browser does not support HTML5 Videos.
+      </video>
+    </div>
+    <div style="text-align: center; padding: 10px;">
+      <h3 style="font-size: 18px;">Example 2 (Text-to-Multi-Shot)</h3>
+      <video width="800" autoplay muted loop playsinline>
+        <!-- Your video file here -->
+        <source src="./OneStory_files/vids/exp_vis_1.mp4"
+        type="video/mp4">
+      sorry, your browser does not support HTML5 Videos.
+      </video>
+    </div>
+    <div style="text-align: center; padding: 10px;">
+      <h3 style="font-size: 18px;">Example 3 (Image-to-Multi-Shot)</h3>
+      <video width="800" autoplay muted loop playsinline>
+        <!-- Your video file here -->
+        <source src="./OneStory_files/vids/exp_vis_2.mp4"
+        type="video/mp4">
+      sorry, your browser does not support HTML5 Videos.
+      </video>
+    </div>
+    <div style="text-align: center; padding: 10px;">
+      <h3 style="font-size: 18px;">Example 4 (Image-to-Multi-Shot)</h3>
+      <video width="800" autoplay muted loop playsinline>
+        <!-- Your video file here -->
+        <source src="./OneStory_files/vids/exp_vis_4.mp4"
+        type="video/mp4">
+      sorry, your browser does not support HTML5 Videos.
+      </video>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+  <h2 style="text-align:center;"><b>More Qualitative Results</b></h2>
+  <p style="text-align:left !important;">
+    Additional qualitative examples demonstrating OneStory's ability to handle diverse scenes and follow complex multi-shot narratives.
+  </p>
+
+  <div style="max-width: 800px; margin: 0 auto;">
+    <div style="text-align: center; padding: 10px;">
+      <h3 style="font-size: 18px;">Text-to-Multi-Shot</h3>
+      <video width="800" autoplay muted loop playsinline>
+        <!-- Your video file here -->
+        <source src="./OneStory_files/vids/exp_vis_more_1.mp4"
+        type="video/mp4">
+      sorry, your browser does not support HTML5 Videos.
+      </video>
+    </div>
+    <div style="text-align: center; padding: 10px;">
+      <h3 style="font-size: 18px;">Image-to-Multi-Shot</h3>
+      <video width="800" autoplay muted loop playsinline>
+        <!-- Your video file here -->
+        <source src="./OneStory_files/vids/exp_vis_more_2.mp4"
+        type="video/mp4">
+      sorry, your browser does not support HTML5 Videos.
+      </video>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+  <h2 style="text-align:center;"><b>Qualitative comparison of frame selection strategies</b></h2>
+  <p style="text-align:left !important;">Top: The sixth-shot generation using the five preceding shots as context.<br>
+    Bottom: Fine-grained cases where the first shot (left column) involves rapid and dynamic motion.
+    The right columns show the generated next shot from each strategy. Both baselines fail to maintain visual coherence, whereas our method identifies semantically relevant frames and produces consistent shots.</p>
+  
+  <div style="text-align: center;">
+  <video width="800" autoplay muted loop playsinline>
+    <!-- Your video file here -->
+    <source src="./OneStory_files/vids/selection.mp4"
+    type="video/mp4">
+  sorry, your browser does not support HTML5 Videos.
+  </video>
+  </div>
+</div>
+
+<div class="content">
+  <h2 style="text-align:center;"><b>Advanced Narrative Modeling Ability</b></h2>
+  <p style="text-align:left !important;">
+    It corresponds to Section 5.4 of the main paper and illustrates advanced narrative modeling from three perspectives.
+  </p>
+  
+  <div style="text-align: center;">
+  <video width="800" autoplay muted loop playsinline>
+    <!-- Your video file here -->
+    <source src="./OneStory_files/vids/advanced.mp4"
+    type="video/mp4">
+  sorry, your browser does not support HTML5 Videos.
+  </video>
+  </div>
+</div>
+
+<div class="content">
+  <h2 style="text-align:center;"><b>Failure Analysis</b></h2>
+  <p style="text-align:left !important;">
+    We present a representative failure case. In Shots 4 and 5, the red box highlights an inconsistency in the generated appearance of the yellow character compared to its appearance in Shots 1 and 2 (shown in the green box), indicating that the model may sometimes struggle with character coherence in out-of-domain scenes.  
+    This suggests that scaling to larger and more diverse training data may be important for improving the model's performance in the future.
+  </p>
+  
+  <div style="text-align: center;">
+  <video width="800" autoplay muted loop playsinline>
+    <!-- Your video file here -->
+    <source src="./OneStory_files/vids/failure.mp4"
+    type="video/mp4">
+  sorry, your browser does not support HTML5 Videos.
+  </video>
+  </div>
+</div>
+
+<div class="content">
+  <h2><b>BibTex</b></h2>
+  <p style="text-align:left !important;">If you find this paper useful in your research, please consider citing:</p>
+  <pre style="background:#f7f7f7; padding:12px; border:1px solid #ddd; overflow-x:auto;"><code>@article{an2025onestory,
+  title={OneStory: Coherent Multi-Shot Video Generation with Adaptive Memory},
+  author={Zhaochong An and Menglin Jia and Haonan Qiu and Zijian Zhou and Xiaoke Huang and Zhiheng Liu and Weiming Ren and Kumara Kahatapitiya and Ding Liu and Sen He and Chenyang Zhang and Tao Xiang and Fanny Yang and Serge Belongie and Tian Xie},
+  journal={arXiv},
+  year={2025}
+}</code></pre>
+</div>
+
+
+</body>
+</html>
