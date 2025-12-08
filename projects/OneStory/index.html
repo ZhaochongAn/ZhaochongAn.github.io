@@ -48,7 +48,7 @@
     <span style="display:inline-block; margin:0 3px 6px 3px;"><a href="https://tianxieusc.github.io/"><b>Tian Xie<sup>1,*</sup></b></a></span>
     <br>
     <span style="font-size: 14px;">
-      <b><sup>1</sup> Meta BizAI</b> &nbsp;&nbsp;
+      <b><sup>1</sup> Meta AI</b> &nbsp;&nbsp;
       <b><sup>2</sup> University of Copenhagen</b> &nbsp;&nbsp;
       <br>
       <b><sup>*</sup> Project lead</b>
@@ -102,7 +102,7 @@
 <div class="content">
   <h2 style="text-align:center;"><b>Method</b></h2>
   <p style="text-align:center;">
-      <img src="./OneStory_files/pipeline.png" style="width: 100%"/>
+      <img src="./OneStory_files/pipeline.png" style="width: 90%"/>
   </p>
   <p style="text-align:left !important;">
     Our model reframes multi-shot video generation (MSV) as a <i>next-shot generation</i> task.
@@ -110,6 +110,19 @@
     <strong>(b)</strong> At inference, it maintains a memory bank of past shots and generates multi-shot videos autoregressively.
     The model is comprised of two key components: <strong>(c)</strong> a <i>Frame Selection</i> module that selects semantically-relevant frames from preceding shots to construct a global context, and <strong>(d)</strong> an <i>Adaptive Conditioner</i> that dynamically compresses the selected context and injects it directly into the generator for efficient conditioning.
     Together, OneStory realizes adaptive memory modeling, enabling global yet compact cross-shot context for coherent narrative generation.
+  </p>
+</div>
+
+<div class="content">
+  <h2 style="text-align:center;"><b>Quantitative Results</b></h2>
+  <p style="text-align:center;">
+      <img src="./OneStory_files/quantitative.png" style="width: 80%"/>
+  </p>
+  <p style="text-align:left !important;">
+    <strong>Quantitative results under text-to-multi-shot (T2MSV) and image-to-multi-shot (I2MSV) settings.</strong>
+    The best and runner-up results are in <strong>bold</strong> and <u>underlined</u>, respectively.
+    In both text- and image-conditioned settings, our model consistently outperforms all baselines on shot-level quality and narrative consistency, demonstrating superior multi-shot generation capabilities.
+    <i>Env.</i> denotes environment consistency, <i>BG.</i> denotes background consistency, and <i>Avg.</i> indicates the average of the corresponding metrics.
   </p>
 </div>
 
