@@ -1,5 +1,49 @@
 [
 	{
+		"image": "images/OneStory.png",
+		"title": "OneStory: Coherent Multi-Shot Video Generation with Adaptive Memory",
+		"url": "https://arxiv.org/pdf/2512.07802",
+		"authors": "<strong>Zhaochong An</strong>, Menglin Jia, Haonan Qiu, Zijian Zhou, Xiaoke Huang, Zhiheng Liu, Weiming Ren, Kumara Kahatapitiya, Ding Liu, Sen He, Chenyang Zhang, Tao Xiang, Fanny Yang, Serge Belongie, Tian Xie",
+		"publicationPlatform": "arXiv",
+		"publicationDate": "2025",
+		"codeLink": "https://zhaochongan.github.io/projects/OneStory/",
+		"linkName": "Project Page",
+		"representation": "#FFFFFF"
+	},
+	{
+		"image": "images/Saber.png",
+		"title": "Scaling Zero-Shot Reference-to-Video Generation",
+		"url": "https://arxiv.org/pdf/2512.06905",
+		"authors": "Zijian Zhou, Shikun Liu, Haozhe Liu, Haonan Qiu, <strong>Zhaochong An</strong>, Weiming Ren, Zhiheng Liu, Xiaoke Huang, Kam Woh Ng, Tian Xie, Xiao Han, Yuren Cong, Hang Li, Chuyan Zhu, Aditya Patel, Tao Xiang, Sen He",
+		"publicationPlatform": "arXiv",
+		"publicationDate": "2025",
+		"codeLink": "https://franciszzj.github.io/Saber/",
+		"linkName": "Project Page",
+		"representation": "#FFFFFF"
+	},
+	{
+		"image": "images/TUNA.png",
+		"title": "TUNA: Taming Unified Visual Representations for Native Unified Multimodal Models",
+		"url": "https://arxiv.org/pdf/2512.02014",
+		"authors": "Zhiheng Liu, Weiming Ren, Haozhe Liu, Zijian Zhou, Shoufa Chen, Haonan Qiu, Xiaoke Huang, <strong>Zhaochong An</strong>, Fanny Yang, Aditya Patel, Viktar Atliha, Tony Ng, Xiao Han, Chuyan Zhu, Chenyang Zhang, Ding Liu, Juan-Manuel Perez-Rua, Sen He, Jürgen Schmidhuber, Wenhu Chen, Ping Luo, Wei Liu, Tao Xiang, Jonas Schult, Yuren Cong",
+		"publicationPlatform": "arXiv",
+		"publicationDate": "2025",
+		"codeLink": "https://tuna-ai.org/",
+		"linkName": "Project Page",
+		"representation": "#FFFFFF"
+	},
+	{
+		"image": "images/FlexTrack.png",
+		"title": "What You Have is What You Track: Adaptive and Robust Multimodal Tracking",
+		"url": "https://openaccess.thecvf.com/content/ICCV2025/papers/Tan_What_You_Have_is_What_You_Track_Adaptive_and_Robust_ICCV_2025_paper.pdf",
+		"authors": "Yuedong Tan, Jiawei Shao, Eduard Zamfir, Ruanjun Li, <strong>Zhaochong An</strong>, Chao Ma, Danda Paudel, Luc Van Gool, Radu Timofte, Zongwei Wu",
+		"publicationPlatform": "ICCV",
+		"publicationDate": "2025",
+		"codeLink": "https://github.com/supertyd/FlexTrack",
+		"linkName": "code",
+		"representation": "#FFFFFF"
+	},
+	{
 		"image": "images/GFS_VL.png",
 		"title": "Generalized Few-shot 3D Point Cloud Segmentation with Vision-Language Model",
 		"url": "https://arxiv.org/pdf/2503.16282",
