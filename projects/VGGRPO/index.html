@@ -1,0 +1,771 @@
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>VGGRPO</title>
+<link rel="stylesheet" href="./VGGRPO_files/css/bootstrap.min.css">
+<link rel="stylesheet" href="./VGGRPO_files/css/dics.min.css">
+<link rel="stylesheet" href="./VGGRPO_files/css/bulma.min.css">
+<link rel="stylesheet" href="./VGGRPO_files/css/bulma-carousel.min.css">
+<link rel="stylesheet" href="./VGGRPO_files/css/index.css">
+<link rel="stylesheet" href="./VGGRPO_files/css/style.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="./VGGRPO_files/js/bulma-carousel.min.js"></script>
+<script src="./VGGRPO_files/js/index.js"></script>
+<script src="./VGGRPO_files/js/dics.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', domReady);
+    function domReady() {
+        for (const e of document.querySelectorAll(".b-dics")) {
+            new Dics({
+                container: e,
+                textPosition: "top"
+            });
+        }
+    }
+</script>
+<style>
+    /* Interactive Comparison Card Styles */
+    .comparison-cards-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin: 20px 0;
+    }
+
+    @media (max-width: 768px) {
+        .comparison-cards-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .comparison-card {
+        position: relative;
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .comparison-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .comparison-video-container {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16/9;
+        background: #000;
+        overflow: hidden;
+    }
+
+    .comparison-video-pane {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 0.4s ease-in-out;
+    }
+
+    .comparison-video-pane.active {
+        opacity: 1;
+    }
+
+    .comparison-video-pane video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .comparison-info {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    .comparison-title {
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        color: #333;
+    }
+
+    .comparison-description {
+        color: #666;
+        font-size: 0.95rem;
+        margin-bottom: 1rem;
+        line-height: 1.5;
+    }
+
+    .comparison-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: auto;
+    }
+
+    .comparison-toggle {
+        display: flex;
+        background: #f0f0f0;
+        border-radius: 25px;
+        padding: 4px;
+        gap: 4px;
+    }
+
+    .comparison-toggle-btn {
+        border: none;
+        background: transparent;
+        color: #666;
+        padding: 8px 20px;
+        border-radius: 20px;
+        font-weight: 500;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .comparison-toggle-btn.active {
+        background: #9900FF;
+        color: white;
+    }
+
+    .comparison-toggle-btn:hover:not(.active) {
+        background: #e0e0e0;
+    }
+</style>
+</head>
+
+<body>
+
+  <div class="content">
+    <h1><strong><font color="#9900FF">VGGRPO</font>: Towards World-Consistent Video Generation <br> with 4D Latent Reward</strong></h1>
+    <p id="authors" style="text-align:center; font-size:16px;">
+      <span style="display:inline-block; margin:0 3px 6px 3px;"><a href="https://zhaochongan.github.io/"><b>Zhaochong An<sup>1,2,*</sup></b></a></span>
+      <span style="display:inline-block; margin:0 3px 6px 3px;"><a href="https://www.linkedin.com/in/orest-kupyn-88666397/"><b>Orest Kupyn<sup>1,3</sup></b></a></span>
+      <span style="display:inline-block; margin:0 3px 6px 3px;"><a href="https://www.linkedin.com/in/th%C3%A9o-uscidda-926335174/"><b>Théo Uscidda<sup>1,4</sup></b></a></span>
+      <span style="display:inline-block; margin:0 3px 6px 3px;"><a href="http://andreacolaco.info/"><b>Andrea Colaco<sup>1</sup></b></a></span>
+      <span style="display:inline-block; margin:0 3px 6px 3px;"><a href="https://karan-ahuja.com/"><b>Karan Ahuja<sup>1</sup></b></a></span>
+      <br>
+      <span style="display:inline-block; margin:0 3px 6px 3px;"><a href="https://serge.belongie.com/"><b>Serge Belongie<sup>2</sup></b></a></span>
+      <span style="display:inline-block; margin:0 3px 6px 3px;"><a href="https://margonzalezfranco.github.io/"><b>Mar Gonzalez-Franco<sup>1</sup></b></a></span>
+      <span style="display:inline-block; margin:0 3px 6px 3px;"><a href="https://www.linkedin.com/in/marta-tintore-gazulla/"><b>Marta Tintore Gazulla<sup>1</sup></b></a></span>
+      <br>
+      <span style="font-size: 14px;">
+        <b><sup>1</sup>Google</b> &nbsp;&nbsp;
+        <b><sup>2</sup>University of Copenhagen</b> &nbsp;&nbsp;
+        <b><sup>3</sup>University of Oxford</b> &nbsp;&nbsp;
+        <b><sup>4</sup>CREST-ENSAE, Institut Polytechnique de Paris</b> &nbsp;&nbsp;
+        <br>
+        <b><sup>*</sup>This work was done during Zhaochong's internship at Google.</b>
+      </span>
+      <p style="text-align: center; font-size:19px;">
+        <a href="" target="_blank"><b>[Paper]</b></a> &nbsp;&nbsp;&nbsp;
+        <a href="" target="_blank"><b>[Linkedin Post]</b></a>
+      </p>
+      <div style="max-width: 800px; margin: 0 auto;">
+        <div style="text-align: center; padding: 10px;">
+          <video width="800" autoplay muted loop playsinline>
+            <!-- Your video file here -->
+            <source src="./VGGRPO_files/vids/VGGRPO.mp4"
+            type="video/mp4">
+          sorry, your browser does not support HTML5 Videos.
+          </video>
+        </div>
+      </div>
+    </p>
+  </div>
+  
+<div class="content">
+  <h2 style="text-align:center;"><b>Abstract</b></h2>
+  <p style="text-align:left !important;">Large-scale video diffusion models achieve impressive visual quality, yet often fail to preserve geometric consistency. Prior approaches improve consistency either by augmenting the generator with additional modules or applying geometry-aware alignment. However, architectural modifications can compromise the generalization of internet-scale pretrained models, while existing alignment methods are limited to static scenes and rely on RGB-space rewards that require repeated VAE decoding, incurring substantial compute overhead and failing to generalize to highly dynamic real-world scenes. To preserve the pretrained capacity while improving geometric consistency, we propose <strong>VGGRPO</strong> (<strong>V</strong>isual <strong>G</strong>eometry <strong>GRPO</strong>), a latent geometry-guided framework for geometry-aware video post-training. VGGRPO introduces a <i>Latent Geometry Model</i> (LGM) that stitches video diffusion latents to geometry foundation models, enabling direct decoding of scene geometry from the latent space. By constructing LGM from a geometry model with 4D reconstruction capability, VGGRPO naturally extends to dynamic scenes, overcoming the static-scene limitations of prior methods. Building on this, we perform latent-space Group Relative Policy Optimization with two complementary rewards: a <i>camera motion smoothness</i> reward that penalizes jittery trajectories, and a <i>geometry reprojection consistency</i> reward that enforces cross-view geometric coherence. Experiments on both static and dynamic benchmarks show that VGGRPO improves camera stability, geometry consistency, and overall quality while eliminating costly VAE decoding, making latent-space geometry-guided reinforcement an efficient and flexible approach to world-consistent video generation.
+  </p>
+</div>
+
+<!--------------------- Method --------------------->
+<div class="content">
+  <h2 style="text-align:center;"><b>Method</b></h2>
+  <p style="text-align:center;">
+      <img src="./VGGRPO_files/pipeline.png" style="width: 90%"/>
+  </p>
+  <p style="text-align:left !important;">
+    <i>VGGRPO</i> is a latent geometry-guided framework for world-consistent video post-training.
+    It comprises two components:
+    <strong>(a)</strong> <i>Latent Geometry Model.</i> We connect latents from the diffusion VAE encoder to a geometry foundation model via a lightweight connector, yielding a Latent Geometry Model that predicts 4D scene geometry directly from video latents without RGB decoding.
+    <strong>(b)</strong> <i>VGGRPO training.</i> We perform latent-space GRPO using two complementary rewards, camera motion smoothness and geometry reprojection consistency, computed entirely in latent space with the latent geometry model. 
+    Together, these components align the video diffusion model toward 4D world-consistent generation on both static and dynamic scenes.
+  </p>
+</div>
+
+<div class="content">
+  <h2 style="text-align:center;"><b>World-consistent Video Generations with VGGRPO</b></h2>
+  <p style="text-align:left !important;">
+    We compare the baseline video diffusion model (<i>left</i>) with the VGGRPO-aligned model (<i>right</i>).
+    Each example depicts a challenging scene; we visualize the generated video below and the reconstructed scene geometry from the inferred 4D scene representation above.
+    Compared with the baseline, VGGRPO (Ours) produces markedly more coherent scene structure and smoother camera motion over time, <i>reducing geometric drift and structural artifacts in both challenging static and dynamic settings</i>. A representative segment of each prompt is shown above each example.
+  </p>
+
+  <div style="max-width: 900px; margin: 0 auto;">
+    <div style="text-align: center; padding: 10px;">
+      <video width="900" autoplay muted loop playsinline>
+        <source src="./VGGRPO_files/vids/teaser_total_1.mp4"
+        type="video/mp4">
+      sorry, your browser does not support HTML5 Videos.
+      </video>
+    </div>
+    <div style="text-align: center; padding: 10px;">
+      <video width="900" autoplay muted loop playsinline>
+        <source src="./VGGRPO_files/vids/teaser_total_2.mp4"
+        type="video/mp4">
+      sorry, your browser does not support HTML5 Videos.
+      </video>
+    </div>
+    <div style="text-align: center; padding: 10px;">
+      <video width="900" autoplay muted loop playsinline>
+        <source src="./VGGRPO_files/vids/teaser_total_3.mp4"
+        type="video/mp4">
+      sorry, your browser does not support HTML5 Videos.
+      </video>
+    </div>
+    <div style="text-align: center; padding: 10px;">
+      <video width="900" autoplay muted loop playsinline>
+        <source src="./VGGRPO_files/vids/teaser_total_4.mp4"
+        type="video/mp4">
+      sorry, your browser does not support HTML5 Videos.
+      </video>
+    </div>
+    <div style="text-align: center; padding: 10px;">
+      <video width="900" autoplay muted loop playsinline>
+        <source src="./VGGRPO_files/vids/teaser_total_5.mp4"
+        type="video/mp4">
+      sorry, your browser does not support HTML5 Videos.
+      </video>
+    </div>
+    <div style="text-align: center; padding: 10px;">
+      <video width="900" autoplay muted loop playsinline>
+        <source src="./VGGRPO_files/vids/teaser_total_6.mp4"
+        type="video/mp4">
+      sorry, your browser does not support HTML5 Videos.
+      </video>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+  <h2 style="text-align:center;"><b>Qualitative Comparisons</b></h2>
+  <p style="text-align:left !important;">    
+    <i>Qualitative Comparison on Static and Dynamic Scenes.</i> 
+    All baselines struggle to maintain world consistency, exhibiting unstable camera motion, geometric drift, and temporally inconsistent scene structure, with artifacts becoming more severe in dynamic scenes.
+    In contrast, VGGRPO (Ours) delivers improved camera stability, stronger geometric consistency, and better overall visual quality across both static and dynamic scenes, demonstrating the effectiveness of the proposed latent-space geometry-aware post-training approach.
+    A representative segment of each prompt is shown above the corresponding example.
+  </p>
+
+  <div style="max-width: 860px; margin: 0 auto;">
+    <div style="text-align: center; padding: 10px;">
+      <h3 style="font-size: 19px;">Example 1 (static scene)</h3>
+      <video width="900" autoplay muted loop playsinline>
+        <source src="./VGGRPO_files/vids/total_qual_1.mp4"
+        type="video/mp4">
+      sorry, your browser does not support HTML5 Videos.
+      </video>
+    </div>
+    <div style="text-align: center; padding: 10px;">
+      <h3 style="font-size: 19px;">Example 2 (static scene)</h3>
+      <video width="900" autoplay muted loop playsinline>
+        <source src="./VGGRPO_files/vids/total_qual_2.mp4"
+        type="video/mp4">
+      sorry, your browser does not support HTML5 Videos.
+      </video>
+    </div>
+    <div style="text-align: center; padding: 10px;">
+      <h3 style="font-size: 19px;">Example 3 (dynamic scene)</h3>
+      <video width="900" autoplay muted loop playsinline>
+        <source src="./VGGRPO_files/vids/total_qual_3.mp4"
+        type="video/mp4">
+      sorry, your browser does not support HTML5 Videos.
+      </video>
+    </div>
+    <div style="text-align: center; padding: 10px;">
+      <h3 style="font-size: 19px;">Example 4 (dynamic scene)</h3>
+      <video width="900" autoplay muted loop playsinline>
+        <source src="./VGGRPO_files/vids/total_qual_4.mp4"
+        type="video/mp4">
+      sorry, your browser does not support HTML5 Videos.
+      </video>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+  <h2 style="text-align:center;"><b>More Qualitative Results</b></h2>
+  <p style="text-align:left !important;">
+    Additional qualitative examples further demonstrate VGGRPO's ability to generate world-consistent videos across diverse scenes, highlighting its effectiveness and flexibility for world-consistent video post-training.
+  </p>
+
+  <div style="max-width: 1200px; margin: 0 auto;">
+    <div class="comparison-cards-grid">
+    <div class="comparison-card">
+      <div class="comparison-video-container">
+        <div class="comparison-video-pane active" data-video="baseline">
+          <video autoplay muted loop playsinline>
+            <source src="./VGGRPO_files/vids/base/Residential_Walkway.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="comparison-video-pane" data-video="ours">
+          <video autoplay muted loop playsinline>
+            <source src="./VGGRPO_files/vids/ours/Residential_Walkway.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+      <div class="comparison-info">
+        <div class="comparison-title">Residential Walkway</div>
+        <div class="comparison-description">
+          The baseline exhibits unstable, jittery camera motion, making the video appear shaky over time. In contrast, VGGRPO produces a smoother camera trajectory, reducing jitter and improving both realism and overall visual quality.
+        </div>
+        <div class="comparison-controls">
+          <div class="comparison-toggle">
+            <button class="comparison-toggle-btn active" data-video="baseline">Baseline</button>
+            <button class="comparison-toggle-btn" data-video="ours">Ours</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="comparison-card">
+      <div class="comparison-video-container">
+        <div class="comparison-video-pane active" data-video="baseline">
+          <video autoplay muted loop playsinline>
+            <source src="./VGGRPO_files/vids/base/Office_Interior.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="comparison-video-pane" data-video="ours">
+          <video autoplay muted loop playsinline>
+            <source src="./VGGRPO_files/vids/ours/Office_Interior.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+      <div class="comparison-info">
+        <div class="comparison-title">Office Interior</div>
+        <div class="comparison-description">
+          The baseline exhibits noticeable geometric drift in the opening frames, along with blur and structural instability in objects such as the fan, floor, and chair. 
+          VGGRPO preserves a more stable scene structure and clearer object geometry throughout the camera motion, resulting in improved geometric consistency.
+        </div>
+        <div class="comparison-controls">
+          <div class="comparison-toggle">
+            <button class="comparison-toggle-btn active" data-video="baseline">Baseline</button>
+            <button class="comparison-toggle-btn" data-video="ours">Ours</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="comparison-card">
+      <div class="comparison-video-container">
+        <div class="comparison-video-pane active" data-video="baseline">
+          <video autoplay muted loop playsinline>
+            <source src="./VGGRPO_files/vids/base/Riverside_Balcony_View.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="comparison-video-pane" data-video="ours">
+          <video autoplay muted loop playsinline>
+            <source src="./VGGRPO_files/vids/ours/Riverside_Balcony_View.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+      <div class="comparison-info">
+        <div class="comparison-title">Riverside Balcony View</div>
+        <div class="comparison-description">
+          As the camera moves toward the riverside lawn, the baseline exhibits blurred scene structure and noticeable camera jitter. 
+          VGGRPO improves geometric consistency and camera stability, producing smoother transitions and a more realistic, world-consistent video.
+        </div>
+        <div class="comparison-controls">
+          <div class="comparison-toggle">
+            <button class="comparison-toggle-btn active" data-video="baseline">Baseline</button>
+            <button class="comparison-toggle-btn" data-video="ours">Ours</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="comparison-card">
+      <div class="comparison-video-container">
+        <div class="comparison-video-pane active" data-video="baseline">
+          <video autoplay muted loop playsinline>
+            <source src="./VGGRPO_files/vids/base/Indoor_TV-to-Lamp.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="comparison-video-pane" data-video="ours">
+          <video autoplay muted loop playsinline>
+            <source src="./VGGRPO_files/vids/ours/Indoor_TV-to-Lamp.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+      <div class="comparison-info">
+        <div class="comparison-title">Indoor TV-to-Lamp</div>
+        <div class="comparison-description">
+          As the camera moves from the television toward the wall lamp, the baseline exhibits shaky, temporally unstable frames with visible geometric artifacts. VGGRPO yields smoother frame-to-frame transitions and more stable camera motion, improving overall scene coherence.
+        </div>
+        <div class="comparison-controls">
+          <div class="comparison-toggle">
+            <button class="comparison-toggle-btn active" data-video="baseline">Baseline</button>
+            <button class="comparison-toggle-btn" data-video="ours">Ours</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="comparison-card">
+      <div class="comparison-video-container">
+        <div class="comparison-video-pane active" data-video="baseline">
+          <video autoplay muted loop playsinline>
+            <source src="./VGGRPO_files/vids/base/House_Exterior.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="comparison-video-pane" data-video="ours">
+          <video autoplay muted loop playsinline>
+            <source src="./VGGRPO_files/vids/ours/House_Exterior.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+      <div class="comparison-info">
+        <div class="comparison-title">House Exterior with Curved Camera Trajectory</div>
+        <div class="comparison-description">
+          The baseline camera shakes violently left-to-right without meaningful motion, producing distorted geometry and weakened scene coherence. 
+          VGGRPO executes a smooth curved camera trajectory, revealing the full house with consistent structure throughout.
+        </div>
+        <div class="comparison-controls">
+          <div class="comparison-toggle">
+            <button class="comparison-toggle-btn active" data-video="baseline">Baseline</button>
+            <button class="comparison-toggle-btn" data-video="ours">Ours</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="comparison-card">
+      <div class="comparison-video-container">
+        <div class="comparison-video-pane active" data-video="baseline">
+          <video autoplay muted loop playsinline>
+            <source src="./VGGRPO_files/vids/base/Bathroom_Doorway.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="comparison-video-pane" data-video="ours">
+          <video autoplay muted loop playsinline>
+            <source src="./VGGRPO_files/vids/ours/Bathroom_Doorway.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+      <div class="comparison-info">
+        <div class="comparison-title">Bathroom Doorway</div>
+        <div class="comparison-description">
+          The baseline shows structural distortion around the door frame and floor, along with shaky camera motion that weakens scene coherence. VGGRPO preserves more consistent geometry without visible structural warping and produces smoother camera motion throughout the sequence.
+        </div>
+        <div class="comparison-controls">
+          <div class="comparison-toggle">
+            <button class="comparison-toggle-btn active" data-video="baseline">Baseline</button>
+            <button class="comparison-toggle-btn" data-video="ours">Ours</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="comparison-card">
+      <div class="comparison-video-container">
+        <div class="comparison-video-pane active" data-video="baseline">
+          <video autoplay muted loop playsinline>
+            <source src="./VGGRPO_files/vids/base/Living_Room_with_TV_Screen.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="comparison-video-pane" data-video="ours">
+          <video autoplay muted loop playsinline>
+            <source src="./VGGRPO_files/vids/ours/Living_Room_with_TV_Screen.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+      <div class="comparison-info">
+        <div class="comparison-title">Living Room with TV Screen</div>
+        <div class="comparison-description">
+          As the camera zooms in, the baseline fails to maintain the static scene displayed on the TV screen — a scene-within-a-scene that exposes geometric inconsistency. 
+          VGGRPO preserves both the room layout and the on-screen content coherently throughout the zoom.
+        </div>
+        <div class="comparison-controls">
+          <div class="comparison-toggle">
+            <button class="comparison-toggle-btn active" data-video="baseline">Baseline</button>
+            <button class="comparison-toggle-btn" data-video="ours">Ours</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="comparison-card">
+      <div class="comparison-video-container">
+        <div class="comparison-video-pane active" data-video="baseline">
+          <video autoplay muted loop playsinline>
+            <source src="./VGGRPO_files/vids/base/Office_Interior_1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="comparison-video-pane" data-video="ours">
+          <video autoplay muted loop playsinline>
+            <source src="./VGGRPO_files/vids/ours/Office_Interior_1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+      <div class="comparison-info">
+        <div class="comparison-title">Office Interior</div>
+        <div class="comparison-description">
+          The baseline undergoes a sudden scene change mid-sequence, jumping from a bookshelf wall to a window view and breaking temporal continuity entirely. VGGRPO maintains a consistent office layout with smooth, uninterrupted camera motion.
+        </div>
+        <div class="comparison-controls">
+          <div class="comparison-toggle">
+            <button class="comparison-toggle-btn active" data-video="baseline">Baseline</button>
+            <button class="comparison-toggle-btn" data-video="ours">Ours</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="comparison-card">
+      <div class="comparison-video-container">
+        <div class="comparison-video-pane active" data-video="baseline">
+          <video autoplay muted loop playsinline>
+            <source src="./VGGRPO_files/vids/base/Loft_with_Upper_Railing.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="comparison-video-pane" data-video="ours">
+          <video autoplay muted loop playsinline>
+            <source src="./VGGRPO_files/vids/ours/Loft_with_Upper_Railing.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+      <div class="comparison-info">
+        <div class="comparison-title">Loft with Upper Railing</div>
+        <div class="comparison-description">
+          As the camera tilts upward, the baseline fails to preserve the railing's complex structure, causing visible deformation and geometric instability. 
+          VGGRPO maintains the railing geometry consistently throughout the upward motion.
+        </div>
+        <div class="comparison-controls">
+          <div class="comparison-toggle">
+            <button class="comparison-toggle-btn active" data-video="baseline">Baseline</button>
+            <button class="comparison-toggle-btn" data-video="ours">Ours</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="comparison-card">
+      <div class="comparison-video-container">
+        <div class="comparison-video-pane active" data-video="baseline">
+          <video autoplay muted loop playsinline>
+            <source src="./VGGRPO_files/vids/base/Windowed_Interior.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="comparison-video-pane" data-video="ours">
+          <video autoplay muted loop playsinline>
+            <source src="./VGGRPO_files/vids/ours/Windowed_Interior.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+      <div class="comparison-info">
+        <div class="comparison-title">Windowed Interior</div>
+        <div class="comparison-description">
+          Starting from an extreme close-up of the window, the baseline struggles with this challenging viewpoint — producing heavy distortion, geometric drift, and camera jitter throughout. VGGRPO handles the close-range lateral motion cleanly, preserving consistent window geometry and stable camera movement from start to finish.
+        </div>
+        <div class="comparison-controls">
+          <div class="comparison-toggle">
+            <button class="comparison-toggle-btn active" data-video="baseline">Baseline</button>
+            <button class="comparison-toggle-btn" data-video="ours">Ours</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="comparison-card">
+      <div class="comparison-video-container">
+        <div class="comparison-video-pane active" data-video="baseline">
+          <video autoplay muted loop playsinline>
+            <source src="./VGGRPO_files/vids/base_dynamic/Car_Driving.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="comparison-video-pane" data-video="ours">
+          <video autoplay muted loop playsinline>
+            <source src="./VGGRPO_files/vids/ours_dynamic/Car_Driving.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+      <div class="comparison-info">
+        <div class="comparison-title">Car Driving</div>
+        <div class="comparison-description">
+          The baseline suffers from blur and artifacts caused by the moving car, and undergoes a sudden scene change mid-sequence that breaks temporal continuity entirely. VGGRPO maintains a coherent scene structure throughout, handling the fast-moving content without drift or interruption.
+        </div>
+        <div class="comparison-controls">
+          <div class="comparison-toggle">
+            <button class="comparison-toggle-btn active" data-video="baseline">Baseline</button>
+            <button class="comparison-toggle-btn" data-video="ours">Ours</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="comparison-card">
+      <div class="comparison-video-container">
+        <div class="comparison-video-pane active" data-video="baseline">
+          <video autoplay muted loop playsinline>
+            <source src="./VGGRPO_files/vids/base_dynamic/Dog.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="comparison-video-pane" data-video="ours">
+          <video autoplay muted loop playsinline>
+            <source src="./VGGRPO_files/vids/ours_dynamic/Dog.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+      <div class="comparison-info">
+        <div class="comparison-title">Dog Walking with a Person</div>
+        <div class="comparison-description">
+          As the dog and person move together, the baseline produces substantial scene blur and geometric drift, revealing its weakness in handling complex scene dynamics. 
+          VGGRPO preserves stable scene geometry along with coherent dynamics for both the person and the dog, yielding a world-consistent sequence.
+        </div>
+        <div class="comparison-controls">
+          <div class="comparison-toggle">
+            <button class="comparison-toggle-btn active" data-video="baseline">Baseline</button>
+            <button class="comparison-toggle-btn" data-video="ours">Ours</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="comparison-card">
+      <div class="comparison-video-container">
+        <div class="comparison-video-pane active" data-video="baseline">
+          <video autoplay muted loop playsinline>
+            <source src="./VGGRPO_files/vids/base_dynamic/Cyclist_Passing.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="comparison-video-pane" data-video="ours">
+          <video autoplay muted loop playsinline>
+            <source src="./VGGRPO_files/vids/ours_dynamic/Cyclist_Passing.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+      <div class="comparison-info">
+        <div class="comparison-title">Cyclist Passing</div>
+        <div class="comparison-description">
+          The combination of a complex camera trajectory and a fast-moving subject pushes the baseline to its limits — producing geometric deformation, camera jitter, and scene drift simultaneously. VGGRPO handles both challenges jointly, maintaining stable geometry and smooth motion throughout the shot.
+        </div>
+        <div class="comparison-controls">
+          <div class="comparison-toggle">
+            <button class="comparison-toggle-btn active" data-video="baseline">Baseline</button>
+            <button class="comparison-toggle-btn" data-video="ours">Ours</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="comparison-card">
+      <div class="comparison-video-container">
+        <div class="comparison-video-pane active" data-video="baseline">
+          <video autoplay muted loop playsinline>
+            <source src="./VGGRPO_files/vids/base_dynamic/Hot_Air_Balloons_Rising.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="comparison-video-pane" data-video="ours">
+          <video autoplay muted loop playsinline>
+            <source src="./VGGRPO_files/vids/ours_dynamic/Hot_Air_Balloons_Rising.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+      <div class="comparison-info">
+        <div class="comparison-title">Hot Air Balloons Rising</div>
+        <div class="comparison-description">
+          The baseline shows camera jitter and background inconsistency as the balloons rise, undermining the continuity of the scene. VGGRPO tracks the ascent with smooth camera motion and consistent scene geometry throughout.
+        </div>
+        <div class="comparison-controls">
+          <div class="comparison-toggle">
+            <button class="comparison-toggle-btn active" data-video="baseline">Baseline</button>
+            <button class="comparison-toggle-btn" data-video="ours">Ours</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    </div>
+  </div>
+</div>
+
+
+<script>
+    // Interactive comparison card toggle functionality
+    $(document).ready(function() {
+        $('.comparison-toggle-btn').on('click', function() {
+            const btn = $(this);
+            const videoType = btn.data('video');
+            const card = btn.closest('.comparison-card');
+            
+            // Update active states for video panes
+            card.find('.comparison-video-pane').removeClass('active');
+            const activePane = card.find('.comparison-video-pane[data-video="' + videoType + '"]');
+            activePane.addClass('active');
+            
+            // Reset and play the selected video from the beginning
+            const activeVideo = activePane.find('video')[0];
+            if (activeVideo) {
+                activeVideo.currentTime = 0;
+                activeVideo.play();
+            }
+            
+            // Pause the previously active video
+            card.find('.comparison-video-pane').not(activePane).each(function() {
+                const video = $(this).find('video')[0];
+                if (video) {
+                    video.pause();
+                }
+            });
+            
+            // Update active states for buttons
+            card.find('.comparison-toggle-btn').removeClass('active');
+            btn.addClass('active');
+        });
+    });
+</script>
+</body>
+</html>
