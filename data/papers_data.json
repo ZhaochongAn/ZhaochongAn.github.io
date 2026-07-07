@@ -3,12 +3,11 @@
 		"image": "images/MODUS.png",
 		"title": "MODUS: Decoder-only Any-to-Any Modeling of Diverse Modalities",
 		"url": "https://modus-multimodal.epfl.ch/",
-		"authors": "Mingqiao Ye, <strong>Zhaochong An</strong>, Zhitong Gao, Xian Liu, Oğuzhan Fatih Kar, Jesse Allardice, Roman Bachmann, David Mizrahi, François Fleuret, Chuan Li, Amir Zadeh, Serge Belongie, Afshin Dehghan, Amir Zamir",
+		"authors": "Mingqiao Ye<sup>*</sup>, <strong>Zhaochong An</strong><sup>*</sup>, Zhitong Gao, Xian Liu, Oğuzhan Fatih Kar, Jesse Allardice, Roman Bachmann, David Mizrahi, François Fleuret, Chuan Li, Amir Zadeh, Serge Belongie, Afshin Dehghan, Amir Zamir<br><sup>*</sup> Equal contribution.",
 		"publicationPlatform": "ICML",
 		"publicationDate": "2026",
 		"links": [
 			{ "name": "Website", "url": "https://modus-multimodal.epfl.ch/" },
-			{ "name": "Demo", "url": "https://modus-multimodal.epfl.ch/" },
 			{ "name": "Code", "url": "https://modus-multimodal.epfl.ch/" }
 		],
 		"representation": "#FFFFFF"
@@ -30,7 +29,7 @@
 		"url": "https://arxiv.org/pdf/2512.07802",
 		"authors": "<strong>Zhaochong An</strong>, Menglin Jia, Haonan Qiu, Zijian Zhou, Xiaoke Huang, Zhiheng Liu, Weiming Ren, Kumara Kahatapitiya, Ding Liu, Sen He, Chenyang Zhang, Tao Xiang, Fanny Yang, Serge Belongie, Tian Xie",
 		"publicationPlatform": "CVPR",
-		"publicationDate": "2026",
+		"publicationDate": "2026 (work done at Meta)",
 		"codeLink": "https://zhaochongan.github.io/projects/OneStory/",
 		"linkName": "Project Page",
 		"representation": "#FFFFFF"
