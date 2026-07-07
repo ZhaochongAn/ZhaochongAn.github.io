@@ -165,6 +165,16 @@
   </table>
 
   <script>
+    function createPaperLinks(paper) {
+      if (paper.links && paper.links.length > 0) {
+        return paper.links.map((link, i) => {
+          const sep = i > 0 ? ' / ' : '';
+          return `${sep}<a href="${link.url}">${link.name}</a>`;
+        }).join('');
+      }
+      return `<a href="${paper.codeLink}"> ${paper.linkName} </a>`;
+    }
+
     function createPaperRow(paper) {
       const row = document.createElement('tr');
       row.innerHTML = `
@@ -184,7 +194,7 @@
                     <br>
                 </p>
                 <div class="paper">
-                    <a href="${paper.codeLink}"> ${paper.linkName} </a>
+                    ${createPaperLinks(paper)}
                 </div>
             </td>
         `;

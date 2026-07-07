@@ -1,5 +1,19 @@
 [
 	{
+		"image": "images/MODUS.png",
+		"title": "MODUS: Decoder-only Any-to-Any Modeling of Diverse Modalities",
+		"url": "https://modus-multimodal.epfl.ch/",
+		"authors": "Mingqiao Ye, <strong>Zhaochong An</strong>, Zhitong Gao, Xian Liu, Oğuzhan Fatih Kar, Jesse Allardice, Roman Bachmann, David Mizrahi, François Fleuret, Chuan Li, Amir Zadeh, Serge Belongie, Afshin Dehghan, Amir Zamir",
+		"publicationPlatform": "ICML",
+		"publicationDate": "2026",
+		"links": [
+			{ "name": "Website", "url": "https://modus-multimodal.epfl.ch/" },
+			{ "name": "Demo", "url": "https://modus-multimodal.epfl.ch/" },
+			{ "name": "Code", "url": "https://modus-multimodal.epfl.ch/" }
+		],
+		"representation": "#FFFFFF"
+	},
+	{
 		"image": "images/VGGRPO.png",
 		"title": "VGGRPO: Towards World-Consistent Video Generation with 4D Latent Reward",
 		"url": "https://arxiv.org/pdf/2603.26599",
