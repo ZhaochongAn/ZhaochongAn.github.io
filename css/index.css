@@ -103,10 +103,11 @@ body, .content, .subtitle, .publication-authors, .publication-venue, .publicatio
 }
 
 .affiliation-logos {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  column-gap: 1.25rem;
+  justify-content: space-between; /* spread across the full row: first logo flush-left, last flush-right */
+  column-gap: 1.25rem; /* minimum gap; extra space is distributed evenly between logos */
   row-gap: 0.75rem;
   margin: 1.5rem 0 0.5rem 0;
   padding: 0.5rem 0;
@@ -120,6 +121,16 @@ body, .content, .subtitle, .publication-authors, .publication-venue, .publicatio
   min-width: 0;
 }
 
+/* Per-gap tweaks: logos are evenly spread by space-between; a margin nudges one
+   specific gap wider/tighter than the rest (only affects the gap on that side).
+   Children order: 1 KU, 2 ETH, 3 Meta, 4 Google, 5 EPFL, 6 Oxford. */
+.affiliation-logos a:nth-child(4) { /* Google: tighten the Meta-Google gap */
+  margin-left: -0.25rem;
+}
+.affiliation-logos a:nth-child(6) { /* Oxford: widen the EPFL-Oxford gap */
+  margin-left: 0.25rem;
+}
+
 .affiliation-logos img {
   width: auto;
   height: auto;
@@ -128,9 +139,20 @@ body, .content, .subtitle, .publication-authors, .publication-venue, .publicatio
   object-fit: contain;
 }
 
+/* Per-logo size tweaks (override the default max-height above) */
+.affiliation-logos img[alt="ETH Zurich"] { /* enlarge ETH */
+  max-height: 31px;
+}
+.affiliation-logos img[alt="EPFL"] { /* shrink EPFL */
+  max-height: 30px;
+}
+.affiliation-logos img[alt="Google"] {
+  max-height: 42px;
+}
+
 @media (max-width: 768px) {
   .affiliation-logos {
-    grid-template-columns: repeat(3, 1fr);
+    justify-content: center; /* on narrow screens logos wrap; keep them centered instead of spread */
     column-gap: 1rem;
   }
 }
@@ -164,4 +186,9 @@ body, .content, .subtitle, .publication-authors, .publication-venue, .publicatio
   width: auto;
   max-width: 72px;
   object-fit: contain;
+}
+
+/* Nudge individual experience logos horizontally (positive = right, negative = left) */
+.experience-table td.experience-logo img[alt="Meta"] {
+  transform: translateX(1rem);
 }
