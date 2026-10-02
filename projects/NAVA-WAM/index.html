@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NAVA-WAM: Native Action-Prior Learning from Videos for World Action Models</title>
+<meta name="description" content="NAVA-WAM directly pretrains the action policy from observation-only videos, without an intermediate visual representation or latent-action interface.">
+<link rel="stylesheet" href="NAVA-WAM_files/css/style.css">
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>Native Action-Prior Learning from Videos<br>for World Action Models</h1>
+    <p class="tagline">
+      <span class="method-name">NAVA-WAM</span> pretrains the action policy <em>directly</em> from
+      observation-only videos &mdash; no intermediate visual representation, no separate latent-action model.
+    </p>
+    <div class="authors">
+      <span class="author"><a href="https://zhaochongan.github.io/">Zhaochong An</a><sup>1,2</sup></span>
+      <span class="author"><a href="https://sii-ferenas.github.io/">Fei Zhang</a><sup>1</sup></span>
+      <span class="author"><a href="https://kmnp.github.io/">Menglin Jia</a><sup>1</sup></span>
+      <span class="author"><a href="https://scholar.google.com/citations?user=P9l4zHIAAAAJ">Duncan Frost</a><sup>1</sup></span>
+      <span class="author"><a href="https://www.franciszzj.com/">Zijian Zhou</a><sup>1</sup></span>
+      <span class="author"><a href="https://yikai-wang.github.io/">Yikai Wang</a><sup>1</sup></span>
+      <br>
+      <span class="author"><a href="https://xudongfrankwang.github.io/">XuDong Wang</a><sup>1</sup></span>
+      <span class="author"><a href="https://scholar.google.com/citations?user=B8g_FcUAAAAJ">Belinda Zeng</a><sup>1</sup></span>
+      <span class="author"><a href="https://serge.belongie.com/">Serge Belongie</a><sup>2</sup></span>
+      <span class="author"><a href="https://www.amirbar.net/">Amir Bar</a><sup>3</sup></span>
+      <span class="author"><a href="https://senhe.github.io/">Sen He</a><sup>1,*</sup></span>
+    </div>
+    <div class="affiliations">
+      <span><sup>1</sup>Meta AI</span>
+      <span><sup>2</sup>University of Copenhagen</span>
+      <span><sup>3</sup>Imperial College London</span>
+    </div>
+    <div class="affiliations"><sup>*</sup>Project lead</div>
+    <div class="links">
+      <a class="button" href="./"><span class="icon">&#128196;</span>Paper</a>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>Real-Robot Deployment</h2>
+    <p class="section-sub">
+      The DROID-post-trained policy runs on a physical Franka FR3
+      <em>without any task-specific fine-tuning</em>. Each clip shows the third-person view, with the
+      wrist camera inset.
+    </p>
+
+    <div class="video-grid cols-3">
+      <div class="vcard success">
+        <video src="NAVA-WAM_files/videos/rr_t1_ours.mp4" autoplay loop muted playsinline preload="auto"></video>
+        <div class="vlabel">
+          <span class="badge ok">4/5</span>
+          <span class="task">T1</span>
+          <span class="detail">&mdash; move the cube to the left side of the bowl</span>
+        </div>
+      </div>
+      <div class="vcard success">
+        <video src="NAVA-WAM_files/videos/rr_t2_ours.mp4" autoplay loop muted playsinline preload="auto"></video>
+        <div class="vlabel">
+          <span class="badge ok">5/5</span>
+          <span class="task">T2</span>
+          <span class="detail">&mdash; put the banana in the box</span>
+        </div>
+      </div>
+      <div class="vcard success">
+        <video src="NAVA-WAM_files/videos/rr_t3_ours.mp4" autoplay loop muted playsinline preload="auto"></video>
+        <div class="vlabel">
+          <span class="badge ok">5/5</span>
+          <span class="task">T3</span>
+          <span class="detail">&mdash; put the blue cube on the red cube</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Model</th><th>ms / call</th><th>T1</th><th>T2</th><th>T3</th><th>Avg (%)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>&pi;<sub>0.5</sub></td><td class="best">195.7</td><td>0/5</td><td class="best">5/5</td><td>3/5</td><td>53.3</td></tr>
+          <tr><td>DreamZero</td><td>3523.9</td><td>0/5</td><td class="best">5/5</td><td class="best">5/5</td><td>66.7</td></tr>
+          <tr class="ours"><td>NAVA-WAM (ours)</td><td>379.2</td><td class="best">4/5</td><td class="best">5/5</td><td class="best">5/5</td><td class="best">93.3</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="table-note">
+      Five trials per task, 15 trials total. <em>ms / call</em> is server-side latency per policy call on
+      a single H100; normalizing by the number of actions executed per replanning step gives 15.8 ms per
+      executed action for NAVA-WAM, versus 24.5 ms for &pi;<sub>0.5</sub> and 146.8 ms for DreamZero.
+    </p>
+
+    <h3>T1: grounding the spatial relation</h3>
+    <p>
+      The largest gap is on T1, which requires placing the cube <em>to the left of</em> the bowl.
+      NAVA-WAM succeeds in 4/5 trials while both baselines fail all five. In all ten baseline trials the
+      cube is localized and grasped correctly &mdash; the failure is in grounding the instructed spatial
+      relation, not in perception or manipulation.
+    </p>
+
+    <div class="video-grid cols-3">
+      <div class="vcard success">
+        <video src="NAVA-WAM_files/videos/rr_t1_ours.mp4" autoplay loop muted playsinline preload="auto"></video>
+        <div class="vlabel">
+          <span class="badge ok">success</span>
+          <span class="task">NAVA-WAM (ours)</span>
+          <span class="detail">&mdash; places the cube to the left of the bowl</span>
+        </div>
+      </div>
+      <div class="vcard failure">
+        <video src="NAVA-WAM_files/videos/rr_t1_dreamzero.mp4" autoplay loop muted playsinline preload="auto"></video>
+        <div class="vlabel">
+          <span class="badge no">failure</span>
+          <span class="task">DreamZero</span>
+          <span class="detail">&mdash; ends with the cube in the bowl or still held above it</span>
+        </div>
+      </div>
+      <div class="vcard failure">
+        <video src="NAVA-WAM_files/videos/rr_t1_pi05.mp4" autoplay loop muted playsinline preload="auto"></video>
+        <div class="vlabel">
+          <span class="badge no">failure</span>
+          <span class="task">&pi;<sub>0.5</sub></span>
+          <span class="detail">&mdash; places the cube to the right of the bowl, or inside it</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <h2>Abstract</h2>
+    <div class="abstract">
+      <p>
+        World action models integrate future visual dynamics with robot action prediction, but their
+        scalability remains limited by the need for action-annotated robot trajectories. Observation-only
+        videos contain rich evidence about interaction dynamics, but existing approaches typically use them
+        either to pretrain visual representations that must later be adapted for control, or to infer latent
+        actions that are subsequently grounded to robot commands.
+      </p>
+      <p>
+        We present <b>NAVA-WAM</b>, which introduces <em>native action-prior learning</em> by directly
+        pre-training the action policy from observation-only videos, avoiding indirect
+        representation-to-control transfer or a separate latent-action model. Our training consists of two
+        stages. First, we pretrain on observation-only videos, where future-video flow-matching supervision
+        over visual transitions is propagated through transition-structured joint attention to optimize the
+        Action-DiT and learn action-relevant priors. Second, we use action-labeled demonstrations to
+        post-train the Action-DiT for robot control through joint video&ndash;action flow matching, while
+        asymmetric attention decouples the visual branch from iterative action denoising and enables
+        efficient action-only inference.
+      </p>
+      <p>
+        Extensive experiments show that NAVA-WAM consistently outperforms prior approaches under both
+        in-distribution and out-of-distribution evaluation, while demonstrating strong action-label
+        efficiency and effective real-robot generalization. These results establish native action-prior
+        learning as an effective approach to directly pretrain action policies from observation-only
+        videos, providing a scalable path beyond action-labeled robot data.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Method</h2>
+
+    <figure>
+      <img src="NAVA-WAM_files/images/method.jpg" alt="Overview of NAVA-WAM: action-free pre-training and downstream post-training.">
+      <figcaption>
+        <b>Overview of NAVA-WAM.</b>
+        During action-free pre-training, the Action Expert is optimized solely through future-video
+        supervision, learning action-relevant priors directly from observation-only videos. During
+        post-training, both experts are jointly optimized on action-labeled robot demonstrations using video
+        and action flow-matching objectives, grounding the pretrained Action Expert to continuous robot
+        control. At inference, NAVA-WAM denoises only robot actions without explicitly generating future
+        videos, enabling efficient closed-loop control.
+      </figcaption>
+    </figure>
+
+    <h3>Stage 1 &mdash; Native action-prior pre-training</h3>
+    <p>
+      For each visual transition, we build a segment holding the clean preceding state, a noised future
+      state, and a group of Action-DiT tokens. A <em>transition-structured joint attention</em> mask lets the
+      Action-DiT read both visual states (an implicit inverse-dynamics path) while the noised future tokens
+      attend back to the Action-DiT representations (an implicit forward-dynamics path). Because the
+      Video-DiT is frozen, minimizing the future-video flow-matching loss updates the Action-DiT
+      <em>only</em> through this joint-attention pathway. The Action-DiT sees the future only in its noised form, which
+      rules out the shortcut of copying the clean prediction target.
+    </p>
+
+    <h3>Stage 2 &mdash; Post-training and action-only inference</h3>
+    <p>
+      Action-labeled demonstrations adapt the pretrained Action-DiT to continuous control via joint
+      video&ndash;action flow matching. Here we make the cross-stream attention <em>asymmetric</em>: the
+      Video-DiT no longer attends to the action stream, so its keys and values can be computed once and
+      cached. After a single joint forward pass, iterative denoising runs through the Action-DiT alone,
+      giving closed-loop control without ever rendering a future video.
+    </p>
+
+    <figure class="narrow">
+      <img src="NAVA-WAM_files/images/attention_masks.jpg" alt="Attention masks used during pre-training, post-training, and inference.">
+      <figcaption>
+        <b>Transition-structured attention masks</b> used during pre-training and post-training.
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <h2>Simulation Results</h2>
+    <p class="section-sub">
+      NAVA-WAM maintains strong in-domain control while substantially improving out-of-domain generalization.
+    </p>
+
+    <div class="table-grid">
+      <div class="table-wrap">
+        <table>
+          <caption>LIBERO / LIBERO-Plus</caption>
+          <thead>
+            <tr><th>Method</th><th>LIBERO</th><th>LIBERO-Plus</th></tr>
+          </thead>
+          <tbody>
+            <tr class="group"><td colspan="3">Direct action policies</td></tr>
+            <tr><td>&pi;<sub>0</sub></td><td>94.1</td><td>53.6</td></tr>
+            <tr><td>&pi;<sub>0</sub>-FAST</td><td>85.5</td><td>61.6</td></tr>
+            <tr><td>StarVLA-&alpha;</td><td>96.5</td><td>77.0</td></tr>
+            <tr><td>&pi;<sub>0.5</sub></td><td>96.9</td><td>77.4</td></tr>
+            <tr><td>ABot-M0</td><td>98.6</td><td>80.5</td></tr>
+            <tr class="group"><td colspan="3">World action models</td></tr>
+            <tr><td>JEPA-VLA</td><td>96.4</td><td>25.6</td></tr>
+            <tr><td>Fast-WAM</td><td>97.6</td><td>51.5</td></tr>
+            <tr><td>Image-WAM</td><td>98.4</td><td>83.1</td></tr>
+            <tr><td>Being-H0.7</td><td class="best">99.2</td><td>82.1</td></tr>
+            <tr class="ours"><td>NAVA-WAM (ours)</td><td>99.0</td><td class="best">83.5</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <caption>RoboTwin 2.0</caption>
+          <thead>
+            <tr><th>Method</th><th>Clean</th><th>Random</th></tr>
+          </thead>
+          <tbody>
+            <tr class="group"><td colspan="3">Direct action policies</td></tr>
+            <tr><td>DP</td><td>28.0</td><td>0.6</td></tr>
+            <tr><td>RDT</td><td>34.5</td><td>13.7</td></tr>
+            <tr><td>&pi;<sub>0</sub></td><td>46.4</td><td>16.3</td></tr>
+            <tr><td>UP-VLA</td><td>52.9</td><td>15.2</td></tr>
+            <tr class="group"><td colspan="3">World action models</td></tr>
+            <tr><td>Fast-WAM</td><td>71.9</td><td>6.3</td></tr>
+            <tr><td>BagelVLA</td><td>75.3</td><td>20.5</td></tr>
+            <tr><td>HALO</td><td>80.5</td><td>26.4</td></tr>
+            <tr><td>Image-WAM</td><td>85.0</td><td>37.6</td></tr>
+            <tr><td>MV-WAM</td><td>84.0</td><td>55.7</td></tr>
+            <tr class="ours"><td>NAVA-WAM (ours)</td><td class="best">88.5</td><td class="best">73.6</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <p class="table-note">
+      Average success rate (%). LIBERO and RoboTwin Clean measure in-domain performance; LIBERO-Plus and
+      RoboTwin Random evaluate out-of-domain generalization. On RoboTwin 2.0, NAVA-WAM improves over the
+      strongest baseline by <b>4.5</b> points on Clean and <b>17.9</b> points on Random, with a much smaller
+      Clean-to-Random drop. All RoboTwin training uses Clean-domain demonstrations only.
+    </p>
+
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <h2>What Does the Action Prior Actually Learn?</h2>
+
+    <h3>Motion transfer across domains</h3>
+    <figure>
+      <img src="NAVA-WAM_files/images/motion_transfer.jpg" alt="Qualitative visualization of motion transfer across domains.">
+      <figcaption>
+        <b>Motion transfer across domains.</b>
+        Each example transfers the transition encoded by a source pair (<em>Source: current</em> &rarr;
+        <em>Source: next</em>) to a different target observation. The source transition specifies the
+        underlying motion cue (orange arrows), which is applied to <em>Target: current</em> to obtain
+        <em>Target: transfer</em>. <em>Overlay</em> shows the transferred state relative to the current target
+        observation, and <em>Target: real</em> shows the corresponding real transition (blue arrows). Across
+        simulation, real-world, and sim-to-real examples, the transferred states follow the source motion
+        despite substantial changes in appearance and scene configuration.
+      </figcaption>
+    </figure>
+
+    <h3>Attention localization</h3>
+    <figure>
+      <img src="NAVA-WAM_files/images/attention_localization.jpg" alt="Action-DiT attention concentrates on the gripper and manipulated objects.">
+      <figcaption>
+        <b>Attention of learned action representations.</b>
+        We visualize attention from action representations to visual tokens on held-out data, overlaid on
+        the <em>current</em> and <em>next</em> input observations. Our pretrained Action-DiT attends to
+        interaction-relevant regions and aligns with observed motion, while the CoMo latent-action baseline
+        shows more diffuse attention over static regions.
+      </figcaption>
+    </figure>
+
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <h2>Qualitative Rollouts on RoboTwin 2.0</h2>
+    <p class="section-sub">
+      All episodes below come from the Random (out-of-domain) split, evaluated with a policy trained
+      only on Clean-domain demonstrations.
+    </p>
+
+    <p class="section-sub" style="margin-top:-18px">
+      Each clip shows the head camera (left) and the two wrist cameras (right).
+    </p>
+
+    <h3>Successes</h3>
+    <div class="video-grid cols-2">
+      <div class="vcard success">
+        <video src="NAVA-WAM_files/videos/rt_handover_mic.mp4" autoplay loop muted playsinline preload="metadata"></video>
+        <div class="vlabel"><span class="task">Handover Mic</span>
+          <span class="detail">&mdash; grasp the microphone with one arm and hand it over to the other arm</span></div>
+      </div>
+      <div class="vcard success">
+        <video src="NAVA-WAM_files/videos/rt_lift_pot.mp4" autoplay loop muted playsinline preload="metadata"></video>
+        <div class="vlabel"><span class="task">Lift Pot</span>
+          <span class="detail">&mdash; use both arms to lift the pot</span></div>
+      </div>
+      <div class="vcard success">
+        <video src="NAVA-WAM_files/videos/rt_place_dual_shoes.mp4" autoplay loop muted playsinline preload="metadata"></video>
+        <div class="vlabel"><span class="task">Place Dual Shoes</span>
+          <span class="detail">&mdash; put both shoes into the shoebox, with the shoe tip pointing left</span></div>
+      </div>
+      <div class="vcard success">
+        <video src="NAVA-WAM_files/videos/rt_place_bread_skillet.mp4" autoplay loop muted playsinline preload="metadata"></video>
+        <div class="vlabel"><span class="task">Place Bread Skillet</span>
+          <span class="detail">&mdash; grab the bread with one arm and put it into the skillet</span></div>
+      </div>
+      <div class="vcard success">
+        <video src="NAVA-WAM_files/videos/rt_open_laptop.mp4" autoplay loop muted playsinline preload="metadata"></video>
+        <div class="vlabel"><span class="task">Open Laptop</span>
+          <span class="detail">&mdash; use one arm to open the laptop</span></div>
+      </div>
+      <div class="vcard success">
+        <video src="NAVA-WAM_files/videos/rt_blocks_ranking_rgb.mp4" autoplay loop muted playsinline preload="metadata"></video>
+        <div class="vlabel"><span class="task">Blocks Ranking RGB</span>
+          <span class="detail">&mdash; place the red, green and blue blocks in a row, in that order from left to right</span></div>
+      </div>
+      <div class="vcard success">
+        <video src="NAVA-WAM_files/videos/rt_stack_blocks_three.mp4" autoplay loop muted playsinline preload="metadata"></video>
+        <div class="vlabel"><span class="task">Stack Blocks Three</span>
+          <span class="detail">&mdash; stack the blue block on the green block and the green block on the red block</span></div>
+      </div>
+    </div>
+
+    <h3>Failures</h3>
+    <div class="video-grid cols-2">
+      <div class="vcard failure">
+        <video src="NAVA-WAM_files/videos/rt_move_can_pot.mp4" autoplay loop muted playsinline preload="metadata"></video>
+        <div class="vlabel"><span class="badge no">failure</span><span class="task">Move Can Pot</span>
+          <span class="detail">&mdash; pick up the can with one arm and move it beside the pot</span></div>
+      </div>
+      <div class="vcard failure">
+        <video src="NAVA-WAM_files/videos/rt_hanging_mug.mp4" autoplay loop muted playsinline preload="metadata"></video>
+        <div class="vlabel"><span class="badge no">failure</span><span class="task">Hanging Mug</span>
+          <span class="detail">&mdash; pick and re-orient the mug with the left arm, then hang it on the rack with the right arm</span></div>
+      </div>
+    </div>
+
+    <p>
+      The two representative failures occur during fine-grained grasping and contact-rich manipulation.
+      In <em>Move Can Pot</em>, the reaching motion knocks the can over instead of establishing a stable
+      grasp; the arm then executes the transport motion with an empty gripper without re-attempting the
+      grasp, and the episode eventually reaches its step limit.
+      In <em>Hanging Mug</em>, the policy completes the initial pick sub-goal, lifting the mug with the
+      left arm and placing it beside the rack, but the right arm fails to continue the task by lifting the
+      mug onto the rack, and the episode eventually reaches its step limit.
+    </p>
+    <p>
+      Together, these cases suggest that failures can arise during fine-grained, contact-rich interactions
+      even when the target object and overall task progression are correctly identified. In both examples,
+      the policy fails to recover from a local execution error, causing it to propagate into task failure.
+    </p>
+  </div>
+</section>
+
+<section id="bibtex">
+  <div class="wrap">
+    <h2>BibTeX</h2>
+    <pre><code>@article{an2026navawam,
+  title   = {Native Action-Prior Learning from Videos for World Action Models},
+  author  = {An, Zhaochong and Zhang, Fei and Jia, Menglin and Frost, Duncan and
+             Zhou, Zijian and Wang, Yikai and Wang, XuDong and Zeng, Belinda and
+             Belongie, Serge and Bar, Amir and He, Sen},
+  journal = {arXiv preprint},
+  year    = {2026}
+}</code></pre>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>
+      Website content is licensed under
+      <a href="http://creativecommons.org/licenses/by-sa/4.0/" rel="license noopener" target="_blank">CC BY-SA 4.0</a>.
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,365 @@
+:root {
+  --ink: #1a1a1a;
+  --muted: #5c6672;
+  --rule: #e3e7ec;
+  --bg: #ffffff;
+  --bg-alt: #f7f9fb;
+  --accent: #1f6feb;
+  --accent-soft: #eaf2fd;
+  --maxw: 960px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Charter", "Georgia", "Times New Roman", serif;
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ---------- hero ---------- */
+
+.hero {
+  padding: 72px 0 44px;
+  text-align: center;
+  border-bottom: 1px solid var(--rule);
+}
+
+.hero h1 {
+  margin: 0 0 10px;
+  font-size: 2.45rem;
+  line-height: 1.22;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.hero .method-name {
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.hero .tagline {
+  margin: 0 auto 26px;
+  max-width: 680px;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+.authors {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin-bottom: 6px;
+}
+
+.authors .author {
+  display: inline-block;
+  margin: 0 7px;
+}
+
+.authors a { color: #224b8d; text-decoration: none; }
+.authors a:hover { text-decoration: underline; }
+
+.affiliations {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+
+.affiliations span { margin: 0 9px; }
+
+.venue {
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-variant: small-caps;
+  letter-spacing: 0.04em;
+}
+
+/* ---------- sections ---------- */
+
+section { padding: 52px 0; }
+section.alt { background: var(--bg-alt); border-block: 1px solid var(--rule); }
+
+h2 {
+  font-size: 1.65rem;
+  margin: 0 0 8px;
+  text-align: center;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-size: 1.12rem;
+  margin: 34px 0 10px;
+  letter-spacing: -0.005em;
+}
+
+.section-sub {
+  text-align: center;
+  color: var(--muted);
+  margin: 0 auto 30px;
+  max-width: 660px;
+  font-size: 0.98rem;
+}
+
+p { margin: 0 0 16px; }
+
+.abstract { max-width: 760px; margin: 0 auto; text-align: justify; hyphens: auto; }
+
+/* ---------- figures ---------- */
+
+figure { margin: 0 0 28px; }
+
+figure img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 6px;
+  background: #fff;
+}
+
+figcaption {
+  margin-top: 10px;
+  font-size: 0.89rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+figcaption b { color: var(--ink); }
+
+.narrow { max-width: 620px; margin-inline: auto; }
+
+/* ---------- video cards ---------- */
+
+.video-grid {
+  display: grid;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.video-grid.cols-3 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.video-grid.cols-2 { grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); }
+
+.vcard {
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+  /* grid rows stretch every card to the tallest one; without this a single-line
+     caption leaves an untinted white strip under the label */
+  display: flex;
+  flex-direction: column;
+}
+
+.vcard video {
+  width: 100%;
+  height: auto;
+  display: block;
+  background: #eef1f4;
+}
+
+.vcard .vlabel {
+  flex: 1;                 /* fill the leftover height so the tint reaches the card edge */
+  padding: 9px 12px;
+  font-size: 0.86rem;
+  line-height: 1.4;
+  border-top: 1px solid var(--rule);
+}
+
+.vcard .vlabel .task { font-weight: 600; }
+
+.vcard .vlabel .detail { color: var(--muted); }
+
+.vcard.success { border-color: #9dc2f5; }
+.vcard.failure { border-color: #f0a9ae; }
+
+.vcard.success .vlabel { background: #f5f9ff; }
+.vcard.failure .vlabel { background: #fff6f6; }
+
+.badge {
+  float: right;
+  margin-left: 8px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.badge.ok { background: var(--accent-soft); color: #14539f; }
+.badge.no { background: #fdeaec; color: #a5121c; }
+
+/* ---------- key numbers ---------- */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+  margin: 0 0 8px;
+  padding: 0;
+  list-style: none;
+}
+
+.stats li {
+  background: var(--accent-soft);
+  border: 1px solid #d3e3fa;
+  border-radius: 8px;
+  padding: 16px 12px;
+  text-align: center;
+}
+
+.stats .num {
+  display: block;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1.15;
+}
+
+.stats .lbl {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+/* ---------- tables ---------- */
+
+.table-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 26px;
+}
+
+.table-wrap { overflow-x: auto; }
+
+/* Side-by-side tables can differ by a few px in natural height, which leaves their
+   bottom rules misaligned. The grid already equalises the wrappers, so let the table
+   fill its wrapper and spread the slack across rows. flex (not height: 100%) so the
+   caption is counted too -- otherwise the table overflows and .table-wrap scrolls. */
+.table-grid > .table-wrap { display: flex; flex-direction: column; }
+.table-grid > .table-wrap > table { flex: 1; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.88rem;
+}
+
+caption {
+  caption-side: top;
+  text-align: left;
+  font-family: inherit;
+  font-size: 0.92rem;
+  font-weight: 600;
+  padding-bottom: 8px;
+}
+
+th, td {
+  padding: 6px 10px;
+  text-align: center;
+  border: none;
+}
+
+th:first-child, td:first-child { text-align: left; }
+
+thead th {
+  border-bottom: 1.5px solid var(--ink);
+  border-top: 1.5px solid var(--ink);
+  font-weight: 600;
+}
+
+tbody tr:last-child td { border-bottom: 1.5px solid var(--ink); }
+
+tr.group td {
+  background: #eef1f4;
+  font-style: italic;
+  font-size: 0.82rem;
+  color: var(--muted);
+  padding: 4px 10px;
+}
+
+tr.ours { background: var(--accent-soft); font-weight: 700; }
+
+td.best, th.best { font-weight: 700; }
+
+.table-note {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-top: 10px;
+}
+
+/* ---------- bibtex ---------- */
+
+pre {
+  background: #f4f6f8;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 18px;
+  overflow-x: auto;
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ---------- footer ---------- */
+
+footer {
+  padding: 30px 0 46px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--rule);
+}
+
+footer a { color: var(--muted); }
+
+a { color: var(--accent); }
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 720px) {
+  body { font-size: 16px; }
+  .hero { padding: 48px 0 32px; }
+  .hero h1 { font-size: 1.8rem; }
+  .hero .method-name { white-space: normal; }
+  section { padding: 38px 0; }
+}
+
+/* ---------- link buttons ---------- */
+
+.links {
+  margin-top: 22px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.links .button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 20px;
+  border-radius: 999px;
+  background: #222;
+  color: #fff;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.links .button:hover { background: var(--accent); }
